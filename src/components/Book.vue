@@ -6,8 +6,14 @@
         <img src="https://i.imgur.com/43ePFH7.png" :class="$style['turnPgLeft']" @click="turnPage('left')">
       </div>
       <div :class="$style['pages']">
-        <template v-for="(page, pageInd) in pages">
+        <template v-for="(page, pageInd) in pages.slice().reverse()">
           <div :class="$style['page']" ref="pageRef">
+            <div :class="$style['pageFront']">
+              <p>{{page.front}}</p>
+            </div>
+            <div :class="$style['pageBack']">
+              <p>{{page.back}}</p>
+            </div>
           </div>
         </template>
       </div>
@@ -23,16 +29,31 @@
     },
 
     data() {
-      let pageList = [1, 2, 3]
+      let foo = [
+        "We're no strangers to love. You know the rules and so do I. A full commitment's what I'm thinking of. You wouldn't get this from any other guy. I just wanna tell you how I'm feeling. Gotta make you understand"
+        ,
+        "Never gonna give you up. Never gonna let you down. Never gonna run around and desert you. Never gonna make you cry. Never gonna say goodbye. Never gonna tell a lie and hurt you"
+        ,
+        "We've known each other for so long. Your heart's been aching, but. You're too shy to say it. Inside, we both know what's been going on. We know the game and we're gonna play it. And if you ask me how I'm feeling. Don't tell me you're too blind to see"
+      ]
+      let pageList = [];
+      if(foo.length%2 != 0){
+        foo.push("empty page");
+      }
+      for(let i=0; i<foo.length/2; i++){
+        pageList.push({front: foo[2*i], back: foo[2*i+1]})
+      }
       return {
-        pages: pageList
+        pages: pageList,
+        currentPage: 0
       }
     },
 
     methods: {
       turnPage(direction = 'left'){
-        console.log("turning the page "+direction);
-        let p = this.$refs.pageRef[0];
+        //console.log("turning the page "+direction);
+        let ps = this.$refs.pageRef.slice().reverse();
+        let p = ps[0];
         switch (direction){
           case "left":
             Velocity(p,"stop");
@@ -87,6 +108,27 @@
     transform: rotateY(-0deg);
     transform-origin: 0% 50%;
     border-left: 6px solid rgba(0,0,0,0.3);
+    transform-style: preserve-3d;
+    >.pageBack,>.pageFront{
+      text-align: left;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      margin: 0;
+      top:0;
+      >p{
+        padding: 0 10px 0 10px;
+        position: absolute;
+        font-size: 1.2em;
+      }
+    }
+    >.pageBack{
+      transform: rotateY(180deg);
+      z-index: 1;
+    }
+    >.pageFront{
+      z-index: 2;
+    }
   }
   .topMenu{
     box-sizing: border-box;
