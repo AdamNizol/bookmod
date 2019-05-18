@@ -12,11 +12,11 @@
       <div :class="$style['pages']">
         <template v-for="(page, pageInd) in pages.slice().reverse()">
           <div :class="$style['page']" ref="pageRef" :style="'z-index: '+(pageInd)+';'">
-            <div :class="$style['pageFront']" :style="'z-index: '+(pages.length+1)+';'">
-              <p>{{page.front}}</p>
+            <div :class="$style['pageFront']" :style="'z-index: '+(pages.length+1)+';'"  >
+              <p >{{page.front}}</p>
             </div>
-            <div :class="$style['pageBack']" :style="'z-index: '+(pages.length-(pageInd+1))+';'">
-              <p>{{page.back}}</p>
+            <div :class="$style['pageBack']" :style="'z-index: '+(pages.length-(pageInd+1))+';'" >
+              <p >{{page.back}}</p>
             </div>
           </div>
         </template>
@@ -90,6 +90,9 @@
     },
 
     methods: {
+      boop(a="boop"){
+        console.log(a)
+      },
       turnPage(direction = 'left'){
         //console.log("turning the page "+direction);
         let ps = this.$refs.pageRef.slice().reverse();
@@ -103,6 +106,8 @@
                 prev.style.zIndex = this.currentPage;
                 Velocity(prev,"finish");
               }
+
+
 
               Velocity(p,"stop");
               Velocity(p,{rotateY: "-180deg"}, 800);
@@ -118,13 +123,13 @@
 
               if(this.currentPage < this.pages.length){
                 let next = ps[this.currentPage];
-                //next.style.zIndex = this.currentPage;
                 Velocity(next,"finish");
               }
 
               Velocity(p,"stop");
               Velocity(p,{rotateY: "0deg"}, 800);
-              this.currentPage--
+              this.currentPage--;
+
               p.style.zIndex = (this.pages.length);
             }
 
@@ -145,7 +150,7 @@
     position: absolute;
     width: 5%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.15);
     top:0;
     left: 50%;
     transform: translateX(-50%);
@@ -160,19 +165,22 @@
   }
   .book{
     position: absolute;
-    background-color: #2d1300;
+    //background-color: #2d1300;
+    background-image: url(https://i.imgur.com/H7aFal2.png);
     border-radius: 13px;
-    width: 800px;
-    height: 500px;
-    border: 3px solid #0d0700;
+    width: 820px;
+    height: 510px;
+    //border: 3px solid #0d0700;
+    box-shadow: inset 0px 0px 20px rgba(0,0,0,1);
   }
   .pages{
     position: absolute;
     left: 50%;
-    width: 48%;
-    height: 92%;
-    top: 5%;
-    perspective: 1500px;
+    width: 47.5%;
+    height: 91%;
+    top: 5.5%;
+    perspective: 3000px;
+    perspective-origin: 0% 50%;
   }
   .page{
     box-sizing: border-box;
@@ -182,11 +190,12 @@
     height: 100%;
     transform: rotateY(-0deg);
     transform-origin: 0% 50%;
-    box-shadow: inset 8px 0px 10px rgba(0,0,0,0.25);
+    //box-shadow: inset 8px 0px 10px rgba(0,0,0,0.25);
     transform-style: preserve-3d;
-    border-radius: 5px 3px 3px 5px;
+    //border-radius: 5px 3px 3px 5px;
     >.pageBack,>.pageFront{
-      background-color: #fdffe8;
+      //background-color: #fdffe8;
+      background-image: url(https://i.imgur.com/4B7eqOV.png);
       text-align: left;
       width: 100%;
       height: 100%;
@@ -197,15 +206,21 @@
         padding: 0 18px 0 18px;
         position: absolute;
         font-size: 1.1em;
+        font-weight: bold;
         white-space: pre-wrap;
+        color: rgba(0,0,0,0.65);
         user-select: none;
       }
     }
     >.pageBack{
       transform: rotateY(180deg);
+      box-shadow: inset -8px 0px 10px rgba(0,0,0,0.25);
+      border-radius: 0px 7px 7px 0px;
       //z-index: 1;
     }
     >.pageFront{
+      box-shadow: inset 8px 0px 10px rgba(0,0,0,0.25);
+      border-radius: 7px 0px 0px 7px;
       //z-index: 2;
     }
   }
@@ -230,6 +245,7 @@
       color: white;
       >p{
         margin: 0;
+        margin-top: 4px;
         font-weight: bold;
       }
     }
