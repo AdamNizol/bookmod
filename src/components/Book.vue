@@ -9,14 +9,14 @@
           <div :class="$style['pageCounter']">
             <p>{{currentPage+1}}/{{pages.length+1}}</p>
           </div>
-          <img src="https://i.imgur.com/YdhV0NU.png" :class="$style['turnPgLeft']" @click="turnPage('left')">
+          <img src="https://i.imgur.com/YdhV0NU.png" :class="$style['turnPgLeft']" @click="turnPage('left')" @mouseover="pageTurnHover('left', true)" @mouseleave="pageTurnHover('left', false)">
         </div>
       </div>
 
       <div :class="$style['frontCoverInner']" ref="coverInner">
         <div>
           <div :class="$style['topMenu']">
-            <img src="https://i.imgur.com/9X5NVWj.png" :class="$style['turnPgRight']" @click="turnPage('right')">
+            <img src="https://i.imgur.com/9X5NVWj.png" :class="$style['turnPgRight']" @click="turnPage('right')" @mouseover="pageTurnHover('right', true)" @mouseleave="pageTurnHover('right', false)">
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@
         </template>
       </div>
 
-      <div :class="$style['frontCoverOuter']" @click="openCover" ref="coverOuter">
+      <div :class="$style['frontCoverOuter']" @click="openCover" ref="coverOuter" @mouseover="coverTurnHover(true)" @mouseleave="coverTurnHover(false)">
         <div></div>
         <div>
           <h2>Title Goes Here</h2>
@@ -90,7 +90,8 @@
       }
       return {
         pages: pageList,
-        currentPage: 0
+        currentPage: 0,
+        coverOpen: false
       }
     },
 
@@ -99,9 +100,66 @@
         let a = (this.$refs.coverOuter)
         let b = (this.$refs.coverInner)
 
+        Velocity(a,"stop");
+        Velocity(a,{rotateY: "-180deg"}, {duration: 800, easing: "linear"});
+        Velocity(b,"stop");
+        Velocity(b,{rotateY: "-180deg"}, {duration: 800, easing: "linear"});
+        this.coverOpen = true;
+      },
+      coverTurnHover(state = false){
+        //this.boop("hia "+state)
+        let a = (this.$refs.coverOuter)
+        let b = (this.$refs.coverInner)
+        if(!this.coverOpen){
+          if(state){
+            Velocity(a,"stop");
+            Velocity(a,{rotateY: "-15deg"}, {duration: 300, easing: "linear"});
+            Velocity(b,"stop");
+            Velocity(b,{rotateY: "-15deg"}, {duration: 300, easing: "linear"});
+          }else{
+            let a = (this.$refs.coverOuter)
+            let b = (this.$refs.coverInner)
 
-        Velocity(a,{rotateY: "-180deg"}, 800);
-        Velocity(b,{rotateY: "-180deg"}, 800);
+            Velocity(a,"stop");
+            Velocity(a,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
+            Velocity(b,"stop");
+            Velocity(b,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
+          }
+        }
+
+
+      },
+      pageTurnHover(direction = 'left', state = false){
+        let ps = this.$refs.pageRef.slice().reverse();
+        if(state){ //turn page a bit
+          if(direction == 'left'){
+            if(this.currentPage < this.pages.length){ //there is a page on the right side which we can turn
+              let p = ps[this.currentPage];
+              Velocity(p,"stop");
+              Velocity(p,{rotateY: "-20deg"}, {duration: 300, easing: "linear"});
+            }
+          }else if(direction == 'right'){
+            if(this.currentPage > 0){ //there is a page on the left side which we can turn
+              let p = ps[this.currentPage-1];
+              Velocity(p,"stop");
+              Velocity(p,{rotateY: "-160deg"}, {duration: 300, easing: "linear"});
+            }
+          }
+        }else{ //turn page back
+          if(direction == 'left'){
+            if(this.currentPage < this.pages.length){ //there is a page on the right side which we can turn
+              let p = ps[this.currentPage];
+              Velocity(p,"stop");
+              Velocity(p,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
+            }
+          }else if(direction == 'right'){
+            if(this.currentPage > 0){ //there is a page on the left side which we can turn
+              let p = ps[this.currentPage-1];
+              Velocity(p,"stop");
+              Velocity(p,{rotateY: "-180deg"}, {duration: 300, easing: "linear"});
+            }
+          }
+        }
       },
       boop(a="boop"){
         console.log(a)
@@ -123,7 +181,7 @@
 
 
               Velocity(p,"stop");
-              Velocity(p,{rotateY: "-180deg"}, 800);
+              Velocity(p,{rotateY: "-180deg"},  {duration: 800, easing: "linear"});
               this.currentPage++;
 
               p.style.zIndex = (this.pages.length);
@@ -140,7 +198,7 @@
               }
 
               Velocity(p,"stop");
-              Velocity(p,{rotateY: "0deg"}, 800);
+              Velocity(p,{rotateY: "0deg"},  {duration: 800, easing: "linear"});
               this.currentPage--;
 
               p.style.zIndex = (this.pages.length);
@@ -148,8 +206,11 @@
               let a = (this.$refs.coverOuter)
               let b = (this.$refs.coverInner)
 
-              Velocity(a,{rotateY: "0deg"}, 900);
-              Velocity(b,{rotateY: "0deg"}, 900);
+              Velocity(a,"stop");
+              Velocity(a,{rotateY: "0deg"},  {duration: 900, easing: "linear"});
+              Velocity(b,"stop");
+              Velocity(b,{rotateY: "0deg"},  {duration: 900, easing: "linear"});
+              this.coverOpen = false;
             }
 
             break;
@@ -187,6 +248,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    h1,h2,h3,h4,p{
+      user-select: none;
+    }
     >p{
       bottom: 0;
       color: rgba(255,255,255,0.6);
