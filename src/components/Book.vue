@@ -1,5 +1,6 @@
 <template>
   <div :class="$style['bookContainer']">
+    <link href="https://fonts.googleapis.com/css?family=Kalam:700&display=swap" rel="stylesheet">
     <div :class="$style['book']">
       <div :class="$style['innerSpine']"></div>
       <div :class="$style['topMenu']">
@@ -188,6 +189,7 @@
         white-space: pre-wrap;
         color: rgba(0,0,0,0.65);
         user-select: none;
+        font-family: 'Kalam', cursive;
       }
     }
     >.pageBack{
