@@ -117,7 +117,7 @@
     height: 100%;
     transform: rotateY(-0deg);
     transform-origin: 0% 50%;
-    border-left: 6px solid rgba(0,0,0,0.3);
+    box-shadow: inset 8px 0px 10px rgba(0,0,0,0.25);
     transform-style: preserve-3d;
     >.pageBack,>.pageFront{
       text-align: left;
@@ -127,7 +127,7 @@
       margin: 0;
       top:0;
       >p{
-        padding: 0 10px 0 10px;
+        padding: 0 15px 0 15px;
         position: absolute;
         font-size: 1.1em;
         white-space: pre-wrap;
