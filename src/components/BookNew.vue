@@ -111,23 +111,15 @@
         this.coverOpen = true;
       },
       coverTurnHover(state = false){
-        //this.boop("hia "+state)
         let a = (this.$refs.coverOuter)
         let b = (this.$refs.coverInner)
         if(!this.coverOpen){
           if(state){
-            Velocity(a,"stop");
-            Velocity(a,{rotateY: "-15deg"}, {duration: 300, easing: "linear"});
-            Velocity(b,"stop");
-            Velocity(b,{rotateY: "-15deg"}, {duration: 300, easing: "linear"});
+            this.rotatePage(a,b,"-15",300);
           }else{
             let a = (this.$refs.coverOuter)
             let b = (this.$refs.coverInner)
-
-            Velocity(a,"stop");
-            Velocity(a,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
-            Velocity(b,"stop");
-            Velocity(b,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
+            this.rotatePage(a,b,"-0",300);
           }
         }
 
@@ -140,21 +132,13 @@
             if(this.currentPage < this.pages.length){ //there is a page on the right side which we can turn
               let p = psFront[this.currentPage];
               let pBack = psBack[this.currentPage];
-
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-21deg"}, {duration: 300, easing: "linear"});
-              Velocity(pBack,"stop");
-              Velocity(pBack,{rotateY: "-21deg"}, {duration: 300, easing: "linear"});
+              this.rotatePage(p,pBack,"-21",300);
             }
           }else if(direction == 'right'){
             if(this.currentPage > 0){ //there is a page on the left side which we can turn
               let p = psFront[this.currentPage-1];
               let pBack = psBack[this.currentPage-1];
-
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-159deg"}, {duration: 300, easing: "linear"});
-              Velocity(pBack,"stop");
-              Velocity(pBack,{rotateY: "-159deg"}, {duration: 300, easing: "linear"});
+              this.rotatePage(p,pBack,"-159",300);
             }
           }
         }else{ //turn page back
@@ -162,27 +146,25 @@
             if(this.currentPage < this.pages.length){ //there is a page on the right side which we can turn
               let p = psFront[this.currentPage];
               let pBack = psBack[this.currentPage];
-
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
-              Velocity(pBack,"stop");
-              Velocity(pBack,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
+              this.rotatePage(p,pBack,"-0",300);
             }
           }else if(direction == 'right'){
             if(this.currentPage > 0){ //there is a page on the left side which we can turn
               let p = psFront[this.currentPage-1];
               let pBack = psBack[this.currentPage-1];
-
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-180deg"}, {duration: 300, easing: "linear"});
-              Velocity(pBack,"stop");
-              Velocity(pBack,{rotateY: "-180deg"}, {duration: 300, easing: "linear"});
+              this.rotatePage(p,pBack,"-180",300);
             }
           }
         }
       },
       boop(a="boop"){
         console.log(a)
+      },
+      rotatePage(pageFront, pageBack, angle, duration){
+        Velocity(pageFront,"stop");
+        Velocity(pageFront,{rotateY: angle+"deg"},  {duration: duration, easing: "linear"});
+        Velocity(pageBack,"stop");
+        Velocity(pageBack,{rotateY: angle+"deg"},  {duration: duration, easing: "linear"});
       },
       turnPage(direction = 'left'){
         let psFront = this.$refs.pageFrontRef.slice().reverse();
@@ -192,11 +174,7 @@
             if(this.currentPage < this.pages.length){
               let p = psFront[this.currentPage];
               let pBack = psBack[this.currentPage];
-
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-180deg"},  {duration: 800, easing: "linear"});
-              Velocity(pBack,"stop");
-              Velocity(pBack,{rotateY: "-180deg"},  {duration: 800, easing: "linear"});
+              this.rotatePage(p,pBack,"-180",800);
               this.currentPage++;
             }
             break;
@@ -204,20 +182,12 @@
             if(this.currentPage > 0){
               let p = psFront[this.currentPage-1];
               let pBack = psBack[this.currentPage-1];
-
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "0deg"},  {duration: 800, easing: "linear"});
-              Velocity(pBack,"stop");
-              Velocity(pBack,{rotateY: "0deg"},  {duration: 800, easing: "linear"});
+              this.rotatePage(p,pBack,"0",800);
               this.currentPage--;
             }else{
               let a = (this.$refs.coverOuter)
               let b = (this.$refs.coverInner)
-
-              Velocity(a,"stop");
-              Velocity(a,{rotateY: "0deg"},  {duration: 900, easing: "linear"});
-              Velocity(b,"stop");
-              Velocity(b,{rotateY: "0deg"},  {duration: 900, easing: "linear"});
+              this.rotatePage(a,b,"0",900);
               this.coverOpen = false;
             }
             break;
