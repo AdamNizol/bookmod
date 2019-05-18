@@ -40,8 +40,10 @@
       <div :class="$style['frontCoverOuter']" @click="openCover" ref="coverOuter">
         <div></div>
         <div>
-          <h2>Official Release Date</h2>
-          <h2>S&Box</h2>
+          <h2>Title Goes Here</h2>
+          <h3>Sub-Title</h3>
+          <h4>By</h4>
+          <h4>Xanthius</h4>
         </div>
         <p>Click To Open</p>
       </div>
@@ -185,6 +187,7 @@
     justify-content: space-between;
     >p{
       bottom: 0;
+      color: rgba(255,255,255,0.6);
     }
   }
   .frontCoverInner{
