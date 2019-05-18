@@ -39,6 +39,10 @@
 
       <div :class="$style['frontCoverOuter']" @click="openCover" ref="coverOuter">
         <div></div>
+        <div>
+          <h2>Official Release Date</h2>
+          <h2>S&Box</h2>
+        </div>
         <p>Click To Open</p>
       </div>
 
