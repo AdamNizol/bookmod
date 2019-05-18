@@ -21,8 +21,6 @@
         </div>
       </div>
 
-      <!--<div :class="$style['innerSpine']"></div>-->
-
 
       <div :class="$style['pages']">
         <template v-for="(page, pageInd) in pages.slice().reverse()">
@@ -144,9 +142,9 @@
               let pBack = psBack[this.currentPage];
 
               Velocity(p,"stop");
-              Velocity(p,{rotateY: "-20deg"}, {duration: 300, easing: "linear"});
+              Velocity(p,{rotateY: "-21deg"}, {duration: 300, easing: "linear"});
               Velocity(pBack,"stop");
-              Velocity(pBack,{rotateY: "-20deg"}, {duration: 300, easing: "linear"});
+              Velocity(pBack,{rotateY: "-21deg"}, {duration: 300, easing: "linear"});
             }
           }else if(direction == 'right'){
             if(this.currentPage > 0){ //there is a page on the left side which we can turn
@@ -154,9 +152,9 @@
               let pBack = psBack[this.currentPage-1];
 
               Velocity(p,"stop");
-              Velocity(p,{rotateY: "-160deg"}, {duration: 300, easing: "linear"});
+              Velocity(p,{rotateY: "-159deg"}, {duration: 300, easing: "linear"});
               Velocity(pBack,"stop");
-              Velocity(pBack,{rotateY: "-160deg"}, {duration: 300, easing: "linear"});
+              Velocity(pBack,{rotateY: "-159deg"}, {duration: 300, easing: "linear"});
             }
           }
         }else{ //turn page back
@@ -224,7 +222,7 @@
             }
             break;
         }
-        
+
       }
     },
     mounted() {
@@ -269,16 +267,6 @@
       height: 100%;
       transform: rotateY(180deg);
     }
-  }
-
-  .innerSpine{
-    position: absolute;
-    width: 5%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.15);
-    top:0;
-    left: 50%;
-    transform: translateX(-50%);
   }
   .bookContainer{
     position: absolute;
