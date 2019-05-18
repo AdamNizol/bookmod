@@ -1,6 +1,7 @@
 <template>
   <div :class="$style['bookContainer']">
     <div :class="$style['book']">
+      <div :class="$style['innerSpine']"></div>
       <div :class="$style['topMenu']">
         <img src="https://i.imgur.com/6lD73vx.png" :class="$style['turnPgRight']" @click="turnPage('right')">
         <img src="https://i.imgur.com/43ePFH7.png" :class="$style['turnPgLeft']" @click="turnPage('left')">
@@ -75,6 +76,15 @@
 </script>
 
 <style module lang="less">
+  .innerSpine{
+    position: absolute;
+    width: 5%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    top:0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
   .bookContainer{
     position: absolute;
     width: 100%;
@@ -86,7 +96,7 @@
   .book{
     position: absolute;
     background-color: #2d1300;
-    border-radius: 7px;
+    border-radius: 13px;
     width: 800px;
     height: 500px;
     border: 3px solid #0d0700;
@@ -103,7 +113,7 @@
     box-sizing: border-box;
     position: absolute;
     width: 100%;
-    background-color: white;
+    background-color: #fdffe8;
     height: 100%;
     transform: rotateY(-0deg);
     transform-origin: 0% 50%;
