@@ -44,37 +44,15 @@
         ,
         "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
         ,
-        "test1"
+        "(Ooh, give you up)\n(Ooh, give you up)\nNever gonna give, never gonna give\n(Give you up)\nNever gonna give, never gonna give\n(Give you up)"
         ,
-        "test2"
+        "We've known each other for so long\nYour heart's been aching, but\nYou're too shy to say it\nInside, we both know what's been going on\nWe know the game and we're gonna play it\n\nI just wanna tell you how I'm feeling\nGotta make you understand"
         ,
-        "test3"
+        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
         ,
-        "test4"
+        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
         ,
-        "test5"
-        ,
-        "test6"
-        ,
-        "test7"
-        ,
-        "test8"
-        ,
-        "test9"
-        ,
-        "test10"
-        ,
-        "test11"
-        ,
-        "test12"
-        ,
-        "test13"
-        ,
-        "test14"
-        ,
-        "test15"
-        ,
-        "test16"
+        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
       ]
       let pageList = [];
       if(foo.length%2 != 0){
