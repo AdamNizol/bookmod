@@ -3,11 +3,11 @@
     <div :class="$style['book']">
       <div :class="$style['innerSpine']"></div>
       <div :class="$style['topMenu']">
-        <img src="https://i.imgur.com/6lD73vx.png" :class="$style['turnPgRight']" @click="turnPage('right')">
+        <img src="https://i.imgur.com/9X5NVWj.png" :class="$style['turnPgRight']" @click="turnPage('right')">
         <div :class="$style['pageCounter']">
           <p>{{currentPage+1}}/{{pages.length+1}}</p>
         </div>
-        <img src="https://i.imgur.com/43ePFH7.png" :class="$style['turnPgLeft']" @click="turnPage('left')">
+        <img src="https://i.imgur.com/YdhV0NU.png" :class="$style['turnPgLeft']" @click="turnPage('left')">
       </div>
       <div :class="$style['pages']">
         <template v-for="(page, pageInd) in pages.slice().reverse()">
