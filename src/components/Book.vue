@@ -119,6 +119,7 @@
     transform-origin: 0% 50%;
     box-shadow: inset 8px 0px 10px rgba(0,0,0,0.25);
     transform-style: preserve-3d;
+    border-radius: 5px 7px 7px 5px;
     >.pageBack,>.pageFront{
       text-align: left;
       width: 100%;
