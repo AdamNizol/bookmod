@@ -180,6 +180,8 @@
   }
   .frontCoverOuter{
     backface-visibility: hidden;
+    box-sizing: border-box;
+    border-left: 10px solid rgba(0,0,0,0.6);
     color: white;
     position: absolute;
     display: flex;
