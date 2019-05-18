@@ -119,7 +119,7 @@
     transform-origin: 0% 50%;
     box-shadow: inset 8px 0px 10px rgba(0,0,0,0.25);
     transform-style: preserve-3d;
-    border-radius: 5px 7px 7px 5px;
+    border-radius: 5px 3px 3px 5px;
     >.pageBack,>.pageFront{
       text-align: left;
       width: 100%;
@@ -128,7 +128,7 @@
       margin: 0;
       top:0;
       >p{
-        padding: 0 15px 0 15px;
+        padding: 0 18px 0 18px;
         position: absolute;
         font-size: 1.1em;
         white-space: pre-wrap;
