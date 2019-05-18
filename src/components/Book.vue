@@ -58,11 +58,11 @@
         switch (direction){
           case "left":
             Velocity(p,"stop");
-            Velocity(p,{rotateY: "-180deg"}, 500);
+            Velocity(p,{rotateY: "-180deg"}, 800);
             break;
           case "right":
             Velocity(p,"stop");
-            Velocity(p,{rotateY: "0deg"}, 500);
+            Velocity(p,{rotateY: "0deg"}, 800);
             break;
         }
 
