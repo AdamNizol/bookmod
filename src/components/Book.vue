@@ -2,14 +2,28 @@
   <div :class="$style['bookContainer']">
     <link href="https://fonts.googleapis.com/css?family=Kalam:700&display=swap" rel="stylesheet">
     <div :class="$style['book']">
-      <div :class="$style['innerSpine']"></div>
-      <div :class="$style['topMenu']">
-        <img src="https://i.imgur.com/9X5NVWj.png" :class="$style['turnPgRight']" @click="turnPage('right')">
-        <div :class="$style['pageCounter']">
-          <p>{{currentPage+1}}/{{pages.length+1}}</p>
+
+      <div :class="$style['backCoverInner']" ref="backCoverInner">
+        <div :class="$style['topMenu']">
+          <div></div>
+          <div :class="$style['pageCounter']">
+            <p>{{currentPage+1}}/{{pages.length+1}}</p>
+          </div>
+          <img src="https://i.imgur.com/YdhV0NU.png" :class="$style['turnPgLeft']" @click="turnPage('left')">
         </div>
-        <img src="https://i.imgur.com/YdhV0NU.png" :class="$style['turnPgLeft']" @click="turnPage('left')">
       </div>
+
+      <div :class="$style['frontCoverInner']" ref="coverInner">
+        <div>
+          <div :class="$style['topMenu']">
+            <img src="https://i.imgur.com/9X5NVWj.png" :class="$style['turnPgRight']" @click="turnPage('right')">
+          </div>
+        </div>
+      </div>
+
+      <!--<div :class="$style['innerSpine']"></div>-->
+
+
       <div :class="$style['pages']">
         <template v-for="(page, pageInd) in pages.slice().reverse()">
           <div :class="$style['page']" ref="pageRef" :style="'z-index: '+(pageInd)+';'">
@@ -22,6 +36,12 @@
           </div>
         </template>
       </div>
+
+      <div :class="$style['frontCoverOuter']" @click="openCover" ref="coverOuter">
+        <div></div>
+        <p>Click To Open</p>
+      </div>
+
     </div>
   </div>
 </template>
@@ -69,6 +89,14 @@
     },
 
     methods: {
+      openCover(){
+        let a = (this.$refs.coverOuter)
+        let b = (this.$refs.coverInner)
+
+
+        Velocity(a,{rotateY: "-180deg"}, 800);
+        Velocity(b,{rotateY: "-180deg"}, 800);
+      },
       boop(a="boop"){
         console.log(a)
       },
@@ -110,6 +138,12 @@
               this.currentPage--;
 
               p.style.zIndex = (this.pages.length);
+            }else{
+              let a = (this.$refs.coverOuter)
+              let b = (this.$refs.coverInner)
+
+              Velocity(a,{rotateY: "0deg"}, 900);
+              Velocity(b,{rotateY: "0deg"}, 900);
             }
 
             break;
@@ -125,6 +159,38 @@
 </script>
 
 <style module lang="less">
+  .frontCoverOuter, .frontCoverInner, .backCoverInner{
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    left:50%;
+    background-image: url(https://i.imgur.com/H7aFal2.png);
+    transform: rotateY(-0deg);
+
+    transform-origin: 0% 50%;
+    perspective-origin: 0% 0%;
+    border-radius: 0 13px 13px 0;
+    box-shadow: inset 0px 0px 20px rgba(0,0,0,1);
+  }
+  .frontCoverOuter{
+    backface-visibility: hidden;
+    color: white;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    >p{
+      bottom: 0;
+    }
+  }
+  .frontCoverInner{
+    >div{
+      width: 100%;
+      height: 100%;
+      transform: rotateY(180deg);
+    }
+  }
+
   .innerSpine{
     position: absolute;
     width: 5%;
@@ -145,12 +211,13 @@
   .book{
     position: absolute;
     //background-color: #2d1300;
-    background-image: url(https://i.imgur.com/H7aFal2.png);
+    //background-image: url(https://i.imgur.com/H7aFal2.png);
     border-radius: 13px;
     width: 820px;
     height: 510px;
     //border: 3px solid #0d0700;
-    box-shadow: inset 0px 0px 20px rgba(0,0,0,1);
+    //box-shadow: inset 0px 0px 20px rgba(0,0,0,1);
+    perspective: 2000px;
   }
   .pages{
     position: absolute;
@@ -206,7 +273,7 @@
   }
   .topMenu{
     box-sizing: border-box;
-    display: absolute;
+    position: absolute;
     top: 0;
     width: 100%;
     display: flex;
