@@ -44,10 +44,10 @@
       <div :class="$style['frontCoverOuter']" @click="openCover" ref="coverOuter" @mouseover="coverTurnHover(true)" @mouseleave="coverTurnHover(false)">
         <div></div>
         <div>
-          <h2>Official Release Date</h2>
-          <h3>S&Box</h3>
+          <h2>Title of the Book</h2>
+          <h3>Sub Title</h3>
           <h4>By</h4>
-          <h4>FacePunch</h4>
+          <h4>Xanthius</h4>
         </div>
         <p>Click To Open</p>
       </div>
