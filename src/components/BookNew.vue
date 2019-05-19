@@ -225,7 +225,18 @@
     justify-content: space-between;
     h1,h2,h3,h4,p{
       user-select: none;
+      margin: 10px;
     }
+    h2{
+      margin-bottom: 10px;
+    }
+    h3{
+      margin-bottom: 50px;
+    }
+    h4{
+      margin-bottom: 10px;
+    }
+
     >p{
       bottom: 0;
       color: rgba(255,255,255,0.6);
