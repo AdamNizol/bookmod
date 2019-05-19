@@ -21,17 +21,21 @@
         </div>
       </div>
 
-      <!--<div :class="$style['innerSpine']"></div>-->
-
 
       <div :class="$style['pages']">
         <template v-for="(page, pageInd) in pages.slice().reverse()">
-          <div :class="$style['page']" ref="pageRef" :style="'z-index: '+(pageInd)+';'">
-            <div :class="$style['pageFront']" :style="'z-index: '+(pages.length+1)+';'"  >
-              <p >{{page.front}}</p>
-            </div>
-            <div :class="$style['pageBack']" :style="'z-index: '+(pages.length-(pageInd+1))+';'" >
+          <div :class="$style['page']" ref="pageBackRef">
+            <div :class="$style['pageBack']" >
               <p >{{page.back}}</p>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div :class="$style['pages']">
+        <template v-for="(page, pageInd) in pages.slice().reverse()">
+          <div :class="$style['page']" ref="pageFrontRef">
+            <div :class="$style['pageFront']" >
+              <p >{{page.front}}</p>
             </div>
           </div>
         </template>
@@ -40,10 +44,10 @@
       <div :class="$style['frontCoverOuter']" @click="openCover" ref="coverOuter" @mouseover="coverTurnHover(true)" @mouseleave="coverTurnHover(false)">
         <div></div>
         <div>
-          <h2>Title Goes Here</h2>
-          <h3>Sub-Title</h3>
+          <h2>{{title}}</h2>
+          <h3>{{subTitle}}</h3>
           <h4>By</h4>
-          <h4>Xanthius</h4>
+          <h4>{{author}}</h4>
         </div>
         <p>Click To Open</p>
       </div>
@@ -58,29 +62,9 @@
     components: {
 
     },
-
+    props: ['title', 'subTitle','author','pagesList'],
     data() {
-      let foo = [
-        "We're no strangers to love\nYou know the rules and so do I\nA full commitment's what I'm thinking of\nYou wouldn't get this from any other guy\n\nI just wanna tell you how I'm feeling\nGotta make you understand"
-        ,
-        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
-        ,
-        "We've known each other for so long\nYour heart's been aching, but\nYou're too shy to say it\nInside, we both know what's been going on\nWe know the game and we're gonna play it\n\nAnd if you ask me how I'm feeling\nDon't tell me you're too blind to see"
-        ,
-        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
-        ,
-        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
-        ,
-        "(Ooh, give you up)\n(Ooh, give you up)\nNever gonna give, never gonna give\n(Give you up)\nNever gonna give, never gonna give\n(Give you up)"
-        ,
-        "We've known each other for so long\nYour heart's been aching, but\nYou're too shy to say it\nInside, we both know what's been going on\nWe know the game and we're gonna play it\n\nI just wanna tell you how I'm feeling\nGotta make you understand"
-        ,
-        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
-        ,
-        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
-        ,
-        "Never gonna give you up\nNever gonna let you down\nNever gonna run around and desert you\nNever gonna make you cry\nNever gonna say goodbye\nNever gonna tell a lie and hurt you"
-      ]
+      let foo = this.pagesList;
       let pageList = [];
       if(foo.length%2 != 0){
         foo.push("");
@@ -107,56 +91,48 @@
         this.coverOpen = true;
       },
       coverTurnHover(state = false){
-        //this.boop("hia "+state)
         let a = (this.$refs.coverOuter)
         let b = (this.$refs.coverInner)
         if(!this.coverOpen){
           if(state){
-            Velocity(a,"stop");
-            Velocity(a,{rotateY: "-15deg"}, {duration: 300, easing: "linear"});
-            Velocity(b,"stop");
-            Velocity(b,{rotateY: "-15deg"}, {duration: 300, easing: "linear"});
+            this.rotatePage(a,b,"-15",300);
           }else{
             let a = (this.$refs.coverOuter)
             let b = (this.$refs.coverInner)
-
-            Velocity(a,"stop");
-            Velocity(a,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
-            Velocity(b,"stop");
-            Velocity(b,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
+            this.rotatePage(a,b,"-0",300);
           }
         }
 
-
       },
       pageTurnHover(direction = 'left', state = false){
-        let ps = this.$refs.pageRef.slice().reverse();
+        let psFront = this.$refs.pageFrontRef.slice().reverse();
+        let psBack = this.$refs.pageBackRef.slice();
         if(state){ //turn page a bit
           if(direction == 'left'){
             if(this.currentPage < this.pages.length){ //there is a page on the right side which we can turn
-              let p = ps[this.currentPage];
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-20deg"}, {duration: 300, easing: "linear"});
+              let p = psFront[this.currentPage];
+              let pBack = psBack[this.currentPage];
+              this.rotatePage(p,pBack,"-21",300);
             }
           }else if(direction == 'right'){
             if(this.currentPage > 0){ //there is a page on the left side which we can turn
-              let p = ps[this.currentPage-1];
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-160deg"}, {duration: 300, easing: "linear"});
+              let p = psFront[this.currentPage-1];
+              let pBack = psBack[this.currentPage-1];
+              this.rotatePage(p,pBack,"-159",300);
             }
           }
         }else{ //turn page back
           if(direction == 'left'){
             if(this.currentPage < this.pages.length){ //there is a page on the right side which we can turn
-              let p = ps[this.currentPage];
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-0deg"}, {duration: 300, easing: "linear"});
+              let p = psFront[this.currentPage];
+              let pBack = psBack[this.currentPage];
+              this.rotatePage(p,pBack,"-0",300);
             }
           }else if(direction == 'right'){
             if(this.currentPage > 0){ //there is a page on the left side which we can turn
-              let p = ps[this.currentPage-1];
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-180deg"}, {duration: 300, easing: "linear"});
+              let p = psFront[this.currentPage-1];
+              let pBack = psBack[this.currentPage-1];
+              this.rotatePage(p,pBack,"-180",300);
             }
           }
         }
@@ -164,64 +140,43 @@
       boop(a="boop"){
         console.log(a)
       },
+      rotatePage(pageFront, pageBack, angle, duration){
+        Velocity(pageFront,"stop");
+        Velocity(pageFront,{rotateY: angle+"deg"},  {duration: duration, easing: "linear"});
+        Velocity(pageBack,"stop");
+        Velocity(pageBack,{rotateY: angle+"deg"},  {duration: duration, easing: "linear"});
+      },
       turnPage(direction = 'left'){
-        //console.log("turning the page "+direction);
-        let ps = this.$refs.pageRef.slice().reverse();
+        let psFront = this.$refs.pageFrontRef.slice().reverse();
+        let psBack = this.$refs.pageBackRef.slice();
         switch (direction){
           case "left":
             if(this.currentPage < this.pages.length){
-              let p = ps[this.currentPage];
-
-              if(this.currentPage > 0){
-                let prev = ps[this.currentPage-1];
-                prev.style.zIndex = this.currentPage;
-                Velocity(prev,"finish");
-              }
-
-
-
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "-180deg"},  {duration: 800, easing: "linear"});
+              let p = psFront[this.currentPage];
+              let pBack = psBack[this.currentPage];
+              this.rotatePage(p,pBack,"-180",800);
               this.currentPage++;
-
-              p.style.zIndex = (this.pages.length);
             }
-
             break;
           case "right":
             if(this.currentPage > 0){
-              let p = ps[this.currentPage-1];
-
-              if(this.currentPage < this.pages.length){
-                let next = ps[this.currentPage];
-                Velocity(next,"finish");
-              }
-
-              Velocity(p,"stop");
-              Velocity(p,{rotateY: "0deg"},  {duration: 800, easing: "linear"});
+              let p = psFront[this.currentPage-1];
+              let pBack = psBack[this.currentPage-1];
+              this.rotatePage(p,pBack,"0",800);
               this.currentPage--;
-
-              p.style.zIndex = (this.pages.length);
             }else{
               let a = (this.$refs.coverOuter)
               let b = (this.$refs.coverInner)
-
-              Velocity(a,"stop");
-              Velocity(a,{rotateY: "0deg"},  {duration: 900, easing: "linear"});
-              Velocity(b,"stop");
-              Velocity(b,{rotateY: "0deg"},  {duration: 900, easing: "linear"});
+              this.rotatePage(a,b,"0",900);
               this.coverOpen = false;
             }
-
             break;
         }
 
       }
     },
     mounted() {
-
     }
-
   }
 </script>
 
@@ -250,7 +205,18 @@
     justify-content: space-between;
     h1,h2,h3,h4,p{
       user-select: none;
+      margin: 10px;
     }
+    h2{
+      margin-bottom: 10px;
+    }
+    h3{
+      margin-bottom: 50px;
+    }
+    h4{
+      margin-bottom: 10px;
+    }
+
     >p{
       bottom: 0;
       color: rgba(255,255,255,0.6);
@@ -263,16 +229,6 @@
       transform: rotateY(180deg);
     }
   }
-
-  .innerSpine{
-    position: absolute;
-    width: 5%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.15);
-    top:0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
   .bookContainer{
     position: absolute;
     width: 100%;
@@ -283,13 +239,9 @@
   }
   .book{
     position: absolute;
-    //background-color: #2d1300;
-    //background-image: url(https://i.imgur.com/H7aFal2.png);
     border-radius: 13px;
     width: 820px;
     height: 510px;
-    //border: 3px solid #0d0700;
-    //box-shadow: inset 0px 0px 20px rgba(0,0,0,1);
     perspective: 2000px;
   }
   .pages{
@@ -305,15 +257,12 @@
     box-sizing: border-box;
     position: absolute;
     width: 100%;
-
+    backface-visibility: hidden;
     height: 100%;
     transform: rotateY(-0deg);
     transform-origin: 0% 50%;
-    //box-shadow: inset 8px 0px 10px rgba(0,0,0,0.25);
     transform-style: preserve-3d;
-    //border-radius: 5px 3px 3px 5px;
     >.pageBack,>.pageFront{
-      //background-color: #fdffe8;
       background-image: url(https://i.imgur.com/4B7eqOV.png);
       text-align: left;
       width: 100%;
@@ -336,12 +285,10 @@
       transform: rotateY(180deg);
       box-shadow: inset -8px 0px 10px rgba(0,0,0,0.25);
       border-radius: 0px 7px 7px 0px;
-      //z-index: 1;
     }
     >.pageFront{
       box-shadow: inset 8px 0px 10px rgba(0,0,0,0.25);
       border-radius: 7px 0px 0px 7px;
-      //z-index: 2;
     }
   }
   .topMenu{
