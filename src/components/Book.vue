@@ -80,15 +80,20 @@
     },
 
     methods: {
+      closeBook(){
+
+      },
       openCover(){
         let a = (this.$refs.coverOuter)
         let b = (this.$refs.coverInner)
-
-        Velocity(a,"stop");
-        Velocity(a,{rotateY: "-180deg"}, {duration: 800, easing: "linear"});
-        Velocity(b,"stop");
-        Velocity(b,{rotateY: "-180deg"}, {duration: 800, easing: "linear"});
+        this.rotatePage(a,b,"-180",800);
         this.coverOpen = true;
+      },
+      closeCover(){
+        let a = (this.$refs.coverOuter)
+        let b = (this.$refs.coverInner)
+        this.rotatePage(a,b,"0",900);
+        this.coverOpen = false;
       },
       coverTurnHover(state = false){
         let a = (this.$refs.coverOuter)
@@ -165,10 +170,7 @@
               this.rotatePage(p,pBack,"0",800);
               this.currentPage--;
             }else{
-              let a = (this.$refs.coverOuter)
-              let b = (this.$refs.coverInner)
-              this.rotatePage(a,b,"0",900);
-              this.coverOpen = false;
+              this.closeCover()
             }
             break;
         }
