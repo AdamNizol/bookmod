@@ -22,20 +22,20 @@
       </div>
 
 
-      <div :class="$style['pages']">
+      <div :class="$style['pagesBack']">
         <template v-for="(page, pageInd) in pages.slice().reverse()">
-          <div :class="$style['page']" ref="pageBackRef">
+          <div :class="$style['page']" ref="pageBackRef" style="transform: rotateY(-180deg);">
             <div :class="$style['pageBack']" >
-              <p >{{page.back}}</p>
+              <textarea :class="$style['pageText']" v-model="page.back" ></textarea>
             </div>
           </div>
         </template>
       </div>
-      <div :class="$style['pages']">
+      <div :class="$style['pagesFront']">
         <template v-for="(page, pageInd) in pages.slice().reverse()">
           <div :class="$style['page']" ref="pageFrontRef">
             <div :class="$style['pageFront']" >
-              <p >{{page.front}}</p>
+              <textarea :class="$style['pageText']" v-model="page.front" ></textarea>
             </div>
           </div>
         </template>
@@ -149,7 +149,7 @@
         Velocity(pageFront,"stop");
         Velocity(pageFront,{rotateY: angle+"deg"},  {duration: duration, easing: "linear"});
         Velocity(pageBack,"stop");
-        Velocity(pageBack,{rotateY: angle+"deg"},  {duration: duration, easing: "linear"});
+        Velocity(pageBack,{rotateY: -(180-angle)+"deg"},  {duration: duration, easing: "linear"});
       },
       turnPage(direction = 'left'){
         let psFront = this.$refs.pageFrontRef.slice().reverse();
@@ -178,6 +178,12 @@
       }
     },
     mounted() {
+      Velocity((this.$refs.coverInner), {rotateY: "-180deg"},0);
+      let psBack = this.$refs.pageBackRef.slice();
+      for(let i=0; i< this.pages.length; i++){
+        Velocity((psBack[i]), {rotateY: "-180deg"},0);
+      }
+      //style="transform: rotateY(-180deg);"
     }
   }
 </script>
@@ -187,16 +193,23 @@
     width: 50%;
     height: 100%;
     position: absolute;
-    left:50%;
+
     background-image: url(https://i.imgur.com/H7aFal2.png);
     transform: rotateY(-0deg);
 
     transform-origin: 0% 50%;
     perspective-origin: 0% 0%;
-    border-radius: 0 13px 13px 0;
+
     box-shadow: inset 0px 0px 20px rgba(0,0,0,1);
   }
+  .backCoverInner{
+
+    left:50%;
+    border-radius: 0 13px 13px 0;
+  }
   .frontCoverOuter{
+    border-radius: 0 13px 13px 0;
+    left:50%;
     backface-visibility: hidden;
     box-sizing: border-box;
     border-left: 10px solid rgba(0,0,0,0.6);
@@ -225,10 +238,13 @@
     }
   }
   .frontCoverInner{
+    border-radius: 13px 0 0 13px;
+    transform-origin: 100% 0%;
+    right:50%;
     >div{
       width: 100%;
       height: 100%;
-      transform: rotateY(180deg);
+      //transform: rotateY(180deg);
     }
   }
   .bookContainer{
@@ -246,9 +262,21 @@
     height: 510px;
     perspective: 2000px;
   }
-  .pages{
-    position: absolute;
+  .pagesFront{
     left: 50%;
+    >.page{
+      transform-origin: 0% 50%;
+    }
+  }
+  .pagesBack{
+    right: 50%;
+    >.page{
+      transform-origin: 100% 0%;
+    }
+  }
+  .pagesFront, .pagesBack{
+    position: absolute;
+
     width: 47.5%;
     height: 91%;
     top: 5.5%;
@@ -262,7 +290,7 @@
     backface-visibility: hidden;
     height: 100%;
     transform: rotateY(-0deg);
-    transform-origin: 0% 50%;
+
     transform-style: preserve-3d;
     >.pageBack,>.pageFront{
       background-image: url(https://i.imgur.com/4B7eqOV.png);
@@ -272,19 +300,25 @@
       position: absolute;
       margin: 0;
       top:0;
-      >p{
-        padding: 0 18px 0 18px;
+      >p, .pageText{
+        border: none;
+        box-sizing: border-box;
+        background-color: rgba(0,0,0,0);
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        padding: 18px 18px 18px 18px;
         position: absolute;
         font-size: 1.1em;
         font-weight: bold;
         white-space: pre-wrap;
         color: rgba(0,0,0,0.65);
-        user-select: none;
+        //user-select: none;
         font-family: 'Kalam', cursive;
       }
     }
     >.pageBack{
-      transform: rotateY(180deg);
+      //transform: rotateY(180deg);
       box-shadow: inset -8px 0px 10px rgba(0,0,0,0.25);
       border-radius: 0px 7px 7px 0px;
     }
